@@ -25,8 +25,6 @@ public class NaverNewsBatch {
 		List<NaverNews> newsList = naverNewsCraw.collect();
 		System.out.println(newsList);
 		naverNewsRepository.saveAll(newsList);
-		System.out.println(naverNewsRepository.saveAll(newsList));
-		
 	}
 
 }

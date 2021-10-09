@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import com.cos.navernews.batch.DataNum;
 import com.cos.navernews.domain.NaverNews;
 
+
 @Component
 public class NaverNewsCraw {
 
@@ -49,19 +50,21 @@ public class NaverNewsCraw {
 				LocalDateTime temp = rawtime.toLocalDateTime().plusHours(9);
 				Timestamp createdAt = Timestamp.valueOf(temp);
 				
-				LocalDate searchday = LocalDate.now().minusDays(1);				
+				LocalDate searchday = LocalDate.now().minusDays(1);	// 어제날짜 : searchday
 				String date = searchday.toString();
 				// System.out.println(company);
 				// System.out.println(title);
 				System.out.println("작성일:" + createdAt);
 				System.out.println("구하는날짜:" + date);
 				NaverNews news = NaverNews.builder().company(company).title(title).createdAt(createdAt).build();			
+				
 				if (writeday.equals(date)) {
+					
 					newsList.add(news);
 					System.out.println(DataNum.num);
 				}
 			} catch (Exception e) {
-
+				System.out.println("존재하지 않는 게시물입니다.");
 			}
 			DataNum.num++;
 		}
