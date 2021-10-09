@@ -15,6 +15,6 @@ public interface NaverNewsRepository extends ReactiveMongoRepository<NaverNews, 
 	// db.runCommand( { convertToCapped: 'naver_realtime', size: 8192 } ) 
 	@Tailable // 커서를 계속 열어두는 어노테이션
 	@Query("{ }") // find 내부의 쿼리
-	Flux<List<NaverNews>> mFindAll();
+	Flux<NaverNews> mFindAll();
 
 }
