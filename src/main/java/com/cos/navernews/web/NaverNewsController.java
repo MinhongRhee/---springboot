@@ -23,10 +23,10 @@ import reactor.core.scheduler.Schedulers;
 public class NaverNewsController {
 	
 	private final NaverNewsRepository naverNewsRepository;
-	private final NaverNewsBatch naverNewsBatch;
-	
+
 	@CrossOrigin // 서버는 다른 도메인의 자바스크립트 요청을 거부한다. (허용해주는 어노테이션)
-	@GetMapping(value = "/news", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	//@GetMapping(value = "/news", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	@GetMapping("/news")
 	public Flux<NaverNews> findAll() {
 		return naverNewsRepository.mFindAll()
 				.subscribeOn(Schedulers.boundedElastic());

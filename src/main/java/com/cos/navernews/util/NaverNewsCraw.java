@@ -14,20 +14,24 @@ import org.springframework.web.client.RestTemplate;
 
 import com.cos.navernews.batch.DataNum;
 import com.cos.navernews.domain.NaverNews;
+import com.cos.navernews.domain.NaverNewsRepository;
 
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Component
 public class NaverNewsCraw {
+
+	private final NaverNewsRepository naverNewsRepository;
 
 	public List<NaverNews> collect() {
 		RestTemplate rt = new RestTemplate();
 		List<NaverNews> newsList = new ArrayList<>();
 
-		for (int i = 1; i < 100; i++) {
+		while (true) {
+			String aid = String.format("%010d", DataNum.num);
+			String url = "https://news.naver.com/main/read.naver?mode=LSD&mid=shm&sid1=103&oid=437&aid=" + aid;
 			try {
-
-				String aid = String.format("%010d", DataNum.num);
-				String url = "https://news.naver.com/main/read.naver?mode=LSD&mid=shm&sid1=103&oid=437&aid=" + aid;
 				String html = rt.getForObject(url, String.class);
 
 				Document doc = Jsoup.parse(html);
@@ -49,25 +53,29 @@ public class NaverNewsCraw {
 				Timestamp rawtime = Timestamp.valueOf(time);
 				LocalDateTime temp = rawtime.toLocalDateTime().plusHours(9);
 				Timestamp createdAt = Timestamp.valueOf(temp);
-				
-				LocalDate searchday = LocalDate.now().minusDays(1);	// 어제날짜 : searchday
+
+				LocalDate searchday = LocalDate.now().minusDays(1); // 어제날짜 : searchday
 				String date = searchday.toString();
 				// System.out.println(company);
 				// System.out.println(title);
-				System.out.println("작성일:" + createdAt);
+				// System.out.println("작성일:" + createdAt);
 				System.out.println("구하는날짜:" + date);
-				NaverNews news = NaverNews.builder().company(company).title(title).createdAt(createdAt).build();			
-				
+
 				if (writeday.equals(date)) {
-					
+					NaverNews news = NaverNews.builder().company(company).title(title).createdAt(createdAt).build();
+
 					newsList.add(news);
-					System.out.println(DataNum.num);
+
+					System.out.println(newsList);
+				} else {
+					break;
 				}
 			} catch (Exception e) {
 				System.out.println("존재하지 않는 게시물입니다.");
 			}
 			DataNum.num++;
 		}
+		System.out.println(DataNum.num);
 		return newsList;
 	}
 
