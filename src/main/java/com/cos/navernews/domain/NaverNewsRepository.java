@@ -13,5 +13,5 @@ public interface NaverNewsRepository extends ReactiveMongoRepository<NaverNews, 
 	@Query("{ }")
 	// find 내부의 쿼리
 	Flux<NaverNews> mFindAll();
-
+		
 }
