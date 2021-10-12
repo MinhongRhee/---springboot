@@ -1,5 +1,6 @@
 package com.cos.navernews.web;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,8 +21,7 @@ public class NaverNewsController {
 	
 	private final NaverNewsRepository naverNewsRepository;
 	@CrossOrigin // 서버는 다른 도메인의 자바스크립트 요청을 거부한다. (허용해주는 어노테이션)
-	//@GetMapping(value = "/news", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-	@GetMapping("/news")
+	@GetMapping(value = "/news", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	public Flux<NaverNews> findAll() {
 		
 		return naverNewsRepository.findAll().subscribeOn(Schedulers.boundedElastic());

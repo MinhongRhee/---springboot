@@ -2,5 +2,5 @@ spring:
   data:
     mongodb:
       host: localhost
-      port: 20000
+      port: 27017
       database: greendb
