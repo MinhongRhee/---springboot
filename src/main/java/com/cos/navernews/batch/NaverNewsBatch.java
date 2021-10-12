@@ -19,8 +19,8 @@ public class NaverNewsBatch {
 	private final NaverNewsRepository naverNewsRepository;
 	private final NaverNewsCraw naverNewsCraw;
 	
-	@Scheduled(fixedDelay = 1000*60*1)
-	//@Scheduled(cron = "* 3 9 * * *", zone="Asia/Seoul")
+	//@Scheduled(fixedDelay = 1000*60*1)
+	@Scheduled(cron = "0 0 1 * * *", zone="Asia/Seoul")
 	public void testCount() {
 		
 		List<NaverNews> newsList = naverNewsCraw.collect();
